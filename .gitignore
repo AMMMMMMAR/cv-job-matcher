@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.env
+
+# Data folders (large / generated files)
+data/raw_jobs/
+data/normalized_jobs/
+data/parsed_cvs/
+data/uploads/
+data/eval/results/
+!data/**/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
