@@ -12,19 +12,34 @@ def get_gemini_schema(model: Any) -> dict:
         # For older pydantic if applicable
         schema = model.schema()
         
-    def strip_unsupported_keys(obj):
+    defs = schema.pop("$defs", {})
+    if not defs:
+        defs = schema.pop("definitions", {})
+        
+    def resolve_and_strip(obj):
         if isinstance(obj, dict):
-            # Remove 'default' and 'title' keys which Gemini API rejects
+            # Resolve $ref by inlining
+            if "$ref" in obj:
+                ref_name = obj["$ref"].split("/")[-1]
+                if ref_name in defs:
+                    resolved = defs[ref_name].copy()
+                    resolve_and_strip(resolved)
+                    obj.clear()
+                    obj.update(resolved)
+                return
+
+            # Remove unsupported keys
             if "default" in obj:
                 del obj["default"]
             if "title" in obj:
                 del obj["title"]
+                
             # Recursively handle nested objects
             for key in list(obj.keys()):
-                strip_unsupported_keys(obj[key])
+                resolve_and_strip(obj[key])
         elif isinstance(obj, list):
             for item in obj:
-                strip_unsupported_keys(item)
+                resolve_and_strip(item)
                 
-    strip_unsupported_keys(schema)
+    resolve_and_strip(schema)
     return schema
