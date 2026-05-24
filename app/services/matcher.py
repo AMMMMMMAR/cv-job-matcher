@@ -89,7 +89,17 @@ def find_matches(cv: CV, top_k: int | None = None) -> MatchResponse:
     
     raw_matches = []
     if response.parsed:
-        raw_matches = response.parsed.matches
+        matches_data = []
+        if isinstance(response.parsed, dict):
+            matches_data = response.parsed.get("matches", [])
+        else:
+            matches_data = getattr(response.parsed, "matches", [])
+            
+        for m in matches_data:
+            if isinstance(m, dict):
+                raw_matches.append(MatchResultRaw(**m))
+            else:
+                raw_matches.append(m)
     else:
         try:
             data = json.loads(response.text)
