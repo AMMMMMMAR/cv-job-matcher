@@ -5,9 +5,9 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
 
-from backend.app.core.config import settings
-from backend.app.services.cv_parser import parse_cv_text
-from backend.app.services.matcher import find_matches
+from app.core.config import settings
+from app.services.cv_parser import parse_cv_text
+from app.services.matcher import find_matches
 
 def test_pipeline():
     """

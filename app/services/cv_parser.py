@@ -2,10 +2,10 @@ import json
 from pathlib import Path
 from google import genai
 from google.genai import types
-from backend.app.core.config import settings
-from backend.app.core.utils import get_gemini_schema
-from backend.app.models.cv import CV
-from backend.app.services.pdf_extractor import extract_text_from_pdf
+from app.core.config import settings
+from app.core.utils import get_gemini_schema
+from app.models.cv import CV
+from app.services.pdf_extractor import extract_text_from_pdf
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 

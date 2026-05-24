@@ -2,11 +2,11 @@ import json
 from pydantic import BaseModel
 from google import genai
 from google.genai import types
-from backend.app.core.config import settings
-from backend.app.models.cv import CV
-from backend.app.models.job import Job
-from backend.app.services.embedder import embed_cv
-from backend.app.services.vector_store import JobVectorStore
+from app.core.config import settings
+from app.models.cv import CV
+from app.models.job import Job
+from app.services.embedder import embed_cv
+from app.services.vector_store import JobVectorStore
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     if not settings.GEMINI_API_KEY:
         print("[matcher] Skipping test: GEMINI_API_KEY not set.")
     else:
-        from backend.app.models.cv import CV
+        from app.models.cv import CV
         dummy_cv = CV(
             full_name="Jane Doe",
             title="Python Developer",

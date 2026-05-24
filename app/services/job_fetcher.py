@@ -1,7 +1,7 @@
 import requests
 import json
 from pathlib import Path
-from backend.app.core.config import settings
+from app.core.config import settings
 
 def fetch_jobs(query: str, pages: int = 1, country: str = "us", date_posted: str = "all") -> list[dict]:
     """

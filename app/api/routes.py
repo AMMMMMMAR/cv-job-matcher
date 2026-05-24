@@ -2,15 +2,15 @@ import uuid
 import shutil
 from pathlib import Path
 from fastapi import APIRouter, UploadFile, File, BackgroundTasks, HTTPException
-from backend.app.core.config import settings
-from backend.app.services.cv_parser import parse_cv_pdf, save_cv
-from backend.app.services.matcher import find_matches, MatchResponse
-from backend.app.services.vector_store import JobVectorStore
-from backend.app.services.evaluator import (
+from app.core.config import settings
+from app.services.cv_parser import parse_cv_pdf, save_cv
+from app.services.matcher import find_matches, MatchResponse
+from app.services.vector_store import JobVectorStore
+from app.services.evaluator import (
     load_test_set, evaluate_semantic, evaluate_bm25, save_report
 )
-from backend.app.models.cv import CV
-from backend.app.models.job import Job
+from app.models.cv import CV
+from app.models.job import Job
 
 router = APIRouter()
 

@@ -1,6 +1,6 @@
 from supabase import create_client, Client
-from backend.app.core.config import settings
-from backend.app.models.job import Job
+from app.core.config import settings
+from app.models.job import Job
 
 class JobVectorStore:
     def __init__(self):
@@ -111,7 +111,7 @@ if __name__ == "__main__":
             print(f"[vector_store] Current jobs in DB: {current_count}")
             
             # Dummy job
-            from backend.app.models.job import Job
+            from app.models.job import Job
             import uuid
             dummy_job = Job(
                 job_id=str(uuid.uuid4()),

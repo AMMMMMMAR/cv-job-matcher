@@ -3,9 +3,9 @@ import uuid
 from pathlib import Path
 from google import genai
 from google.genai import types
-from backend.app.core.config import settings
-from backend.app.core.utils import get_gemini_schema
-from backend.app.models.job import Job
+from app.core.config import settings
+from app.core.utils import get_gemini_schema
+from app.models.job import Job
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 

@@ -3,11 +3,11 @@ import math
 from pathlib import Path
 from pydantic import BaseModel
 from rank_bm25 import BM25Okapi
-from backend.app.core.config import settings
-from backend.app.models.cv import CV
-from backend.app.models.job import Job
-from backend.app.services.embedder import embed_cv
-from backend.app.services.vector_store import JobVectorStore
+from app.core.config import settings
+from app.models.cv import CV
+from app.models.job import Job
+from app.services.embedder import embed_cv
+from app.services.vector_store import JobVectorStore
 
 class EvalTriplet(BaseModel):
     cv_id: str

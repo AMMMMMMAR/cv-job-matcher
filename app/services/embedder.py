@@ -1,8 +1,8 @@
 from google import genai
 from google.genai import types
-from backend.app.core.config import settings
-from backend.app.models.cv import CV
-from backend.app.models.job import Job
+from app.core.config import settings
+from app.models.cv import CV
+from app.models.job import Job
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 

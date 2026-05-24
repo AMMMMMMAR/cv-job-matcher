@@ -5,10 +5,10 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
 
-from backend.app.services.job_fetcher import fetch_jobs, save_jobs
-from backend.app.services.job_normalizer import normalize_job
-from backend.app.services.embedder import embed_job
-from backend.app.services.vector_store import JobVectorStore
+from app.services.job_fetcher import fetch_jobs, save_jobs
+from app.services.job_normalizer import normalize_job
+from app.services.embedder import embed_job
+from app.services.vector_store import JobVectorStore
 
 INGESTION_QUERIES = [
     # United States (large English pool)

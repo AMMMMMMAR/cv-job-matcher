@@ -6,13 +6,13 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
 
-from backend.app.core.config import settings
-from backend.app.services.evaluator import (
+from app.core.config import settings
+from app.services.evaluator import (
     load_test_set, evaluate_semantic, evaluate_bm25, save_report
 )
-from backend.app.services.cv_parser import parse_cv_pdf
-from backend.app.models.job import Job
-from backend.app.services.vector_store import JobVectorStore
+from app.services.cv_parser import parse_cv_pdf
+from app.models.job import Job
+from app.services.vector_store import JobVectorStore
 
 def run_evaluation():
     """
