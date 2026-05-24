@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from google import genai
 from google.genai import types
 from app.core.config import settings
+from app.core.utils import get_gemini_schema
 from app.models.cv import CV
 from app.models.job import Job
 from app.services.embedder import embed_cv
@@ -32,10 +33,13 @@ class MatchResultRaw(BaseModel):
     skill_gaps: list[str]
     learning_suggestions: list[str]
 
+class MatchResultRawList(BaseModel):
+    matches: list[MatchResultRaw]
+
 SYSTEM_PROMPT = (
     "You are an expert career advisor and technical recruiter. Given a candidate's CV and a list of candidate jobs, rank them by fit. "
     "For each match: explain in 2–3 sentences why it fits, list the candidate's matching strengths, list required skills they're missing, "
-    "and suggest specific things to learn. Be honest about gaps. Output JSON only."
+    "and suggest specific things to learn. Be honest about gaps. Output JSON only, using the provided schema."
 )
 
 def find_matches(cv: CV, top_k: int | None = None) -> MatchResponse:
@@ -78,17 +82,18 @@ def find_matches(cv: CV, top_k: int | None = None) -> MatchResponse:
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_PROMPT,
             response_mime_type="application/json",
-            response_schema=list[MatchResultRaw],
+            response_schema=get_gemini_schema(MatchResultRawList),
             temperature=0.2,
         ),
     )
     
     raw_matches = []
     if response.parsed:
-        raw_matches = response.parsed
+        raw_matches = response.parsed.matches
     else:
         try:
-            raw_matches = [MatchResultRaw(**m) for m in json.loads(response.text)]
+            data = json.loads(response.text)
+            raw_matches = [MatchResultRaw(**m) for m in data.get("matches", [])]
         except:
             print("[matcher] Error parsing LLM results.")
             
