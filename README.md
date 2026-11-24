@@ -55,8 +55,8 @@ Traditional Applicant Tracking Systems (ATS) and job boards rely on **rigid keyw
 flowchart TD
     subgraph ClientTier ["Presentation Tier (React 19 + Tailwind)"]
         A["User Uploads CV (PDF)"] --> B["UploadZone Component"]
-        B -->|POST multipart/form-data| C["FastAPI Gateway (/api/cv/upload)"]
-        K["State Machine: idle ➔ loading ➔ results"] --> L["Dashboard: CVSummaryCard + MatchCards + Modal"]
+        B -->|"POST multipart/form-data"| C["FastAPI Gateway (/api/cv/upload)"]
+        K["State Machine: idle -> loading -> results"] --> L["Dashboard: CVSummaryCard + MatchCards + Modal"]
     end
 
     subgraph ServiceTier ["Application Tier (FastAPI + Google GenAI)"]
@@ -69,12 +69,12 @@ flowchart TD
 
     subgraph DataTier ["Data Tier (Supabase PostgreSQL + pgvector)"]
         G --> H["match_jobs RPC Function"]
-        H -->|HNSW Cosine Index Search| DB[(jobs Table with vector768)]
-        DB -->|Top 20 Semantic Candidates| I
+        H -->|"HNSW Cosine Index Search"| DB[("jobs Table with vector768")]
+        DB -->|"Top 20 Semantic Candidates"| I
     end
 
-    J -->|Top 5 Ranked Matches + Explanations| C
-    C -->|MatchResponse JSON| K
+    J -->|"Top 5 Ranked Matches + Explanations"| C
+    C -->|"MatchResponse JSON"| K
 ```
 
 ---
