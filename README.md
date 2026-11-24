@@ -26,20 +26,20 @@ Matchi replaces rigid keyword searches (ATS) with a hybrid **Retrieve-and-Genera
 
 ```mermaid
 flowchart TD
-    PDF["Uploaded Candidate CV (PDF)"] -->|PyMuPDF Text Extraction| Extractor["pdf_extractor.py"]
-    Extractor -->|Raw Text| Parser["cv_parser.py (Gemini 2.0 Flash)"]
-    Parser -->|Structured CV Model| Embedder["embedder.py (gemini-embedding-001)"]
-    Embedder -->|768-dim Vector (RETRIEVAL_QUERY)| VectorStore["vector_store.py (Supabase pgvector)"]
+    PDF["Uploaded Candidate CV (PDF)"] -->|"PyMuPDF Text Extraction"| Extractor["pdf_extractor.py"]
+    Extractor -->|"Raw Text"| Parser["cv_parser.py (Gemini 2.0 Flash)"]
+    Parser -->|"Structured CV Model"| Embedder["embedder.py (gemini-embedding-001)"]
+    Embedder -->|"768-dim Dense Query Vector"| VectorStore["vector_store.py (Supabase pgvector)"]
     
     subgraph Stage1 ["Stage 1: Semantic Retrieval (pgvector)"]
-        VectorStore -->|match_jobs RPC (HNSW Cosine)| DB[(Supabase PostgreSQL)]
-        DB -->|Top 20 Candidate Jobs (<50ms)| Reranker["matcher.py (Gemini 2.0 Flash)"]
+        VectorStore -->|"match_jobs RPC (HNSW Cosine)"| DB[("Supabase PostgreSQL")]
+        DB -->|"Top 20 Candidate Jobs (Fast Retrieval)"| Reranker["matcher.py (Gemini 2.0 Flash)"]
     end
     
     subgraph Stage2 ["Stage 2: LLM Re-Ranking & Gap Analysis"]
-        Parser -.->|CV Data| Reranker
-        Reranker -->|Strict JSON Output| LLMEval["Evaluates Fit, Strengths & Gaps"]
-        LLMEval -->|Ranked Top 5 Matches + Advice| Response["FastAPI JSON Response"]
+        Parser -.->|"CV Data"| Reranker
+        Reranker -->|"Strict JSON Output"| LLMEval["Evaluates Fit, Strengths & Gaps"]
+        LLMEval -->|"Ranked Top 5 Matches + Advice"| Response["FastAPI JSON Response"]
     end
 ```
 
