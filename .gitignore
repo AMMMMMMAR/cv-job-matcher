@@ -18,6 +18,9 @@ data/eval/results/
 .vscode/
 .idea/
 
+# Local reference files
+MAIN_BRANCH_README.md
+
 # OS
 .DS_Store
 Thumbs.db
